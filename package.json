@@ -4,13 +4,17 @@
   "description": "A MERN stack Video streaming app",
   "main": "app.js",
   "scripts": {
+    "client-install": "npm install --prefix u-stream-ui",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "server": "nodemon app.js",
+    "client": "npm start --prefix u-stream-ui",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Cauvery Raja S",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
     "express": "^4.17.1",
     "mongoose": "^5.10.6"
   }
