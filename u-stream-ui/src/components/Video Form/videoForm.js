@@ -16,7 +16,7 @@ class VideoForm extends Component {
     render() {
       return (
         <div className="video-form-container">
-          <form onSubmit={onFormSubmit}>
+          <form onSubmit={this.onFormSubmit}>
             <div className="form-group">
               <label>Title</label>
               <input type="text" name="title"/>
@@ -42,5 +42,6 @@ class VideoForm extends Component {
         </div>
       )
     }
-
 }
+
+export default VideoForm;
