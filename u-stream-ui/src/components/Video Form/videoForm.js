@@ -13,11 +13,24 @@ class VideoForm extends Component {
         super();
         this.onFieldChange = this.onFieldChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.onFileSelect = this.onFileSelect.bind(this);
     }
 
     onFieldChange(event) {
         this.setState({
             [event.target.name]: event.target.value
+        });
+    }
+
+    onFileSelect(event) {
+        let files = event.target.files;
+        const reader = new FileReader();
+        reader.readAsBinaryString(files[0]);
+        reader.addEventListener('load', (event) => {
+            const result = event.target.result;
+            this.setState({
+                content: result
+            });
         });
     }
 
@@ -48,7 +61,7 @@ class VideoForm extends Component {
             </div>
             <div className="form-group">
               <label>Content</label>
-              <input type="file" name="content" onChange={this.onFieldChange}/>
+              <input type="file" name="content" accept=".mp4, .avi" onChange={this.onFileSelect}/>
             </div>
             <button>Submit</button>
           </form>
