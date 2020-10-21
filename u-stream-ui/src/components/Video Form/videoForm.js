@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 
 class VideoForm extends Component {
     state = {
-      title: '',
-      description: '',
-      author: '',
-      category: '',
-      content: ''
+        formData: new FormData()
     };
 
     constructor() {
@@ -17,26 +13,28 @@ class VideoForm extends Component {
     }
 
     onFieldChange(event) {
+        let form = this.state.formData;
+        form.set(event.target.name, event.target.value)
         this.setState({
-            [event.target.name]: event.target.value
+            formData: form
         });
     }
 
     onFileSelect(event) {
-        let files = event.target.files;
-        const reader = new FileReader();
-        reader.readAsBinaryString(files[0]);
-        reader.addEventListener('load', (event) => {
-            const result = event.target.result;
-            this.setState({
-                content: result
-            });
+        let form = this.state.formData;
+        form.set(event.target.name, event.target.files[0])
+        this.setState({
+            formData: form
         });
     }
 
     onFormSubmit(event) {
         event.preventDefault();
-        console.log('Form submitted...', this.state);
+        fetch('/upload', {
+            method: 'POST',
+            body: this.state.formData
+        })
+        .then(res => console.log(res));
     }
 
     render() {
@@ -60,8 +58,8 @@ class VideoForm extends Component {
               <input type="text" name="author" onChange={this.onFieldChange}/>
             </div>
             <div className="form-group">
-              <label>Content</label>
-              <input type="file" name="content" accept=".mp4, .avi" onChange={this.onFileSelect}/>
+              {/*<label>Content</label>*/}
+              <input type="file" name="selectedFile" accept=".mp4, .avi" onChange={this.onFileSelect}/>
             </div>
             <button>Submit</button>
           </form>
